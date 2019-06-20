@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "512690781637",
+    "firebase_url": "https://whatsapp-sharlon.firebaseio.com",
+    "project_id": "whatsapp-sharlon",
+    "storage_bucket": "whatsapp-sharlon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512690781637:android:29e90beec862306e",
+        "android_client_info": {
+          "package_name": "com.sharlon.whatsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512690781637-p1k4v57fb4ruus1bufona21b72b30me2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sharlon.whatsapp",
+            "certificate_hash": "c30ec1cddd636df551a9b33f6e93e6cba1c33e6e"
+          }
+        },
+        {
+          "client_id": "512690781637-iocu44m61m9hpp4c3r46t4sgplb8akhn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqS2cmji7-yGlo-V1zsSzbTQTtLsrWt54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512690781637-iocu44m61m9hpp4c3r46t4sgplb8akhn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
