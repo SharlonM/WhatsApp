@@ -1,34 +1,21 @@
 package com.sharlon.whatsapp;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtNome, edtNumero;
-    private FirebaseAuth firebaseAuth;
+    public static ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +25,10 @@ public class LoginActivity extends AppCompatActivity {
 
         edtNome = findViewById(R.id.edtNome);
         edtNumero = findViewById(R.id.edtNumero);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.setLanguageCode("br");
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Carregando...");
+        dialog.setCancelable(false);
 
         // gerar mascaras de numero
 
@@ -51,82 +40,37 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickCadastrar(View view) {
 
-        String nome = edtNome.getText().toString().trim();
-        String numero = edtNumero.getText().toString().trim();
+        if (edtNome.getText().toString().isEmpty()) {
 
-        numero = numero.replace("+", "");
-        numero = numero.replace("-", "");
-        numero = numero.replace("(", "");
-        numero = numero.replace(")", "");
-        numero = numero.replaceAll(" ", "");
+            edtNome.setError("Campo obrigatorio");
 
-        Toast.makeText(getApplicationContext(), numero, Toast.LENGTH_LONG).show();
+        } else if (edtNumero.getText().toString().isEmpty()) {
 
-        int numeroRandomico = new Random().nextInt(9999 - 1000) + 1000;
+            edtNumero.setError("Campo obrigatorio");
 
-        String token = String.valueOf(numeroRandomico);
+        } else {
 
-        verificarComFirebase(numero);
+            String nome = edtNome.getText().toString().trim();
+            String numero = edtNumero.getText().toString().trim();
 
-    }
+            //numero = numero.replace("+", "");
+            numero = numero.replace("-", "");
+            numero = numero.replace("(", "");
+            numero = numero.replace(")", "");
+            numero = numero.replaceAll(" ", "");
 
-    private void verificarComFirebase(String number) {
+            ValidadorActivity.numero = numero;
+            ValidadorActivity.nome = nome;
 
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                number,
-                60,
-                TimeUnit.SECONDS,
-                this,
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                        logar(phoneAuthCredential);
-                    }
+            dialog.show();
 
-                    @Override
-                    public void onVerificationFailed(FirebaseException e) {
-                        // deu falha
+            Intent i = new Intent(this, ValidadorActivity.class);
+            startActivity(i);
 
-                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            // numero invalido ou codigo invalido
-                        } else if (e instanceof FirebaseTooManyRequestsException) {
-                            // tempo de 60s excedido
-                        }
-                    }
-
-                    @Override
-                    public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                        super.onCodeSent(s, forceResendingToken);
-
-                        // mensagem enviada para o numero, verificar manualmente se está correto
-
-                        // PhoneAuthCredential credential = PhoneAuthProvider.getCredential(s,numero que o usuario digitou);
-
-                    }
-                }
-        );
+        }
 
     }
 
-    public void logar(PhoneAuthCredential credential) {
 
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()) {
-
-                    FirebaseUser user = task.getResult().getUser();
-
-                } else {
-
-                    Log.w("Falha no logar", task.getException());
-
-                }
-
-            }
-        });
-
-    }
 
 }
