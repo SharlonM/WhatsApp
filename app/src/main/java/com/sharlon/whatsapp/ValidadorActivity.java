@@ -2,6 +2,7 @@ package com.sharlon.whatsapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -121,7 +123,14 @@ public class ValidadorActivity extends AppCompatActivity {
 
                     user = Objects.requireNonNull(task.getResult()).getUser();
 
+                    UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
+                    builder.setDisplayName(nome);
+
+                    user.updateProfile(builder.build());
+
                     MainActivity.toast(getApplicationContext(), "Bem vindo " + user.getDisplayName());
+
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 } else {
 

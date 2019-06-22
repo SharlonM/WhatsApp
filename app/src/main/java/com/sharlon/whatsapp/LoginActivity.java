@@ -1,21 +1,31 @@
 package com.sharlon.whatsapp;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtNome, edtNumero;
     public static ProgressDialog dialog;
+    private String[] permisoes = {
+            Manifest.permission.SEND_SMS
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +33,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        edtNome = findViewById(R.id.edtNome);
-        edtNumero = findViewById(R.id.edtNumero);
+        Permissao.validaPermisoes(this, permisoes);
 
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Carregando...");
-        dialog.setCancelable(false);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // gerar mascaras de numero
 
-        SimpleMaskFormatter formato = new SimpleMaskFormatter("+NN (NN) NNNNN-NNNN");
-        MaskTextWatcher mascaraNumero = new MaskTextWatcher(edtNumero, formato);
-        edtNumero.addTextChangedListener(mascaraNumero);
+        if (user != null) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
+
+            edtNome = findViewById(R.id.edtNome);
+            edtNumero = findViewById(R.id.edtNumero);
+
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("Carregando...");
+            dialog.setCancelable(false);
+
+            // gerar mascaras de numero
+
+            SimpleMaskFormatter formato = new SimpleMaskFormatter("+NN (NN) NNNNN-NNNN");
+            MaskTextWatcher mascaraNumero = new MaskTextWatcher(edtNumero, formato);
+            edtNumero.addTextChangedListener(mascaraNumero);
+        }
 
     }
 
@@ -71,6 +91,32 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        for (int result : grantResults) {
+            if (result == PackageManager.PERMISSION_DENIED) {
+                alertaValidacao();
+            }
+        }
 
+    }
+
+    private void alertaValidacao() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+        builder.setTitle("Permissao negada");
+        builder.setMessage("Todas as permissoes precisam ser aceitas para usar o app");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        builder.create();
+        builder.show();
+    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WhatsApp</string>
+    <string name="app_name">WhatsApp_Fake</string>
     <string name="img_logo">img_logo</string>
     <string name="txt_Validacao">Validação</string>
     <string name="txt_cadastrar">Cadastrar</string>
