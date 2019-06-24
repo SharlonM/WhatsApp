@@ -12,8 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ValidadorActivity"></activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Autenticacao.ValidadorActivity"></activity>
+        <activity android:name=".Autenticacao.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

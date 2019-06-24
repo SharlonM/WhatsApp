@@ -7,9 +7,9 @@ import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-class Permissao {
+public class Permissao {
 
-    static void validaPermisoes(Activity activity, String[] permisoes) {
+    public static void validaPermisoes(Activity activity, String[] permisoes) {
 
         String[] validar = new String[permisoes.length];
         int contador = 0;

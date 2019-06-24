@@ -1,4 +1,4 @@
-package com.sharlon.whatsapp;
+package com.sharlon.whatsapp.Autenticacao;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,30 +16,28 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.sharlon.whatsapp.MainActivity;
+import com.sharlon.whatsapp.R;
+import com.sharlon.whatsapp.firebase.ConfigFirebase;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ValidadorActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
     public static String nome, numero;
+    String credencial;
     private EditText codigo;
     private boolean liberacao = false;
-    String credencial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validador);
-        firebaseAuth = FirebaseAuth.getInstance();
 
         codigo = findViewById(R.id.edtCodigo);
         verificarComFirebase(numero);
@@ -115,20 +113,22 @@ public class ValidadorActivity extends AppCompatActivity {
 
     public void logar(PhoneAuthCredential credential) {
 
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        ConfigFirebase.getReference().signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()) {
 
-                    user = Objects.requireNonNull(task.getResult()).getUser();
+                    ConfigFirebase.setUser(Objects.requireNonNull(task.getResult()).getUser());
 
                     UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
                     builder.setDisplayName(nome);
 
-                    user.updateProfile(builder.build());
+                    ConfigFirebase.getUser().updateProfile(builder.build());
 
-                    MainActivity.toast(getApplicationContext(), "Bem vindo " + user.getDisplayName());
+                    MainActivity.toast(getApplicationContext(), "Bem vindo " + ConfigFirebase.getUser().getDisplayName());
+
+                    ConfigFirebase.updateUsuario();
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 

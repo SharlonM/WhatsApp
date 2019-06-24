@@ -1,4 +1,4 @@
-package com.sharlon.whatsapp;
+package com.sharlon.whatsapp.Autenticacao;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -15,14 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.sharlon.whatsapp.MainActivity;
+import com.sharlon.whatsapp.Permissao;
+import com.sharlon.whatsapp.R;
+import com.sharlon.whatsapp.firebase.ConfigFirebase;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText edtNome, edtNumero;
     public static ProgressDialog dialog;
+    private EditText edtNome, edtNumero;
     private String[] permisoes = {
             Manifest.permission.SEND_SMS
     };
@@ -35,10 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Permissao.validaPermisoes(this, permisoes);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        if (user != null) {
+        if (ConfigFirebase.getReference().getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
 
