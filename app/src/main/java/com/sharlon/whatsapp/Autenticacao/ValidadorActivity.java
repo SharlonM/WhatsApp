@@ -131,6 +131,7 @@ public class ValidadorActivity extends AppCompatActivity {
                     ConfigFirebase.updateUsuario();
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
 
                 } else {
 

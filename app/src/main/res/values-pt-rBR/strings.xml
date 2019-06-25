@@ -8,4 +8,5 @@
     <string name="txt_textoValidacao">Você recebeu um SMS para validação do seu número, Digite o codigo de validação abaixo:</string>
     <string name="txt_codigo">Digite o código!</string>
     <string name="txt_Validar">Validar</string>
+    <string name="txt_logout">Sair</string>
 </resources>
