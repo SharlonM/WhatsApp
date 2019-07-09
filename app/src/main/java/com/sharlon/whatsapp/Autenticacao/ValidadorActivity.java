@@ -136,6 +136,7 @@ public class ValidadorActivity extends AppCompatActivity {
                 } else {
 
                     Log.w("Falha no logar", task.getException());
+                    MainActivity.toast(getApplicationContext(), "Codigo Invalido");
 
                 }
 

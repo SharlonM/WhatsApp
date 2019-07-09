@@ -10,7 +10,6 @@
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
-    android:elevation="5dp"
     app:title="WhatsApp">
 
 </androidx.appcompat.widget.Toolbar>

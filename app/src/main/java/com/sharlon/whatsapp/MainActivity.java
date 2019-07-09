@@ -11,9 +11,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.sharlon.whatsapp.Autenticacao.LoginActivity;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
+import com.sharlon.whatsapp.fragmentos.TabAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Toolbar toolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarMain);
         toolbar.setTitle("WhatsApp");
         setSupportActionBar(toolbar);
+
+        tabLayout = findViewById(R.id.tabMain);
+        viewPager = findViewById(R.id.viewPager);
+
+        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(tabAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 
