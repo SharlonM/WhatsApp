@@ -6,21 +6,21 @@
 
     <item
         android:id="@+id/item_sair"
-        android:title="@string/txt_logout"
         android:orderInCategory="100"
+        android:title="@string/txt_logout"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/item_adcionar"
-        android:title="adcionar"
+        android:icon="@drawable/ic_person_add"
         android:orderInCategory="300"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_person_add" />
+        android:title="adcionar"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/item_pesquisa"
-        android:title="pesquisa"
+        android:icon="@drawable/ic_search"
         android:orderInCategory="200"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_search" />
+        android:title="pesquisa"
+        app:showAsAction="always" />
 </menu>

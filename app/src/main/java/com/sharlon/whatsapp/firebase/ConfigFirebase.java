@@ -8,32 +8,28 @@ import com.sharlon.whatsapp.modelos.Usuario;
 
 public class ConfigFirebase {
 
-    private static FirebaseAuth firebaseAuth;
-    private static DatabaseReference databaseReference;
     private static FirebaseUser firebaseUser;
 
     public ConfigFirebase() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        updateUsuario();
+
     }
 
     public static FirebaseAuth getReference() {
         return FirebaseAuth.getInstance();
     }
 
+    public static FirebaseUser getUser() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        return firebaseUser;
+    }
+
     public static void setUser(FirebaseUser user) {
         firebaseUser = user;
     }
 
-    public static FirebaseUser getUser() {
-        return firebaseUser;
-    }
-
     public static DatabaseReference getReferenciaBanco() {
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        return databaseReference;
+        return FirebaseDatabase.getInstance().getReference();
     }
 
     public static void updateUsuario() {
@@ -44,12 +40,21 @@ public class ConfigFirebase {
         salvarUsuarioBanco(usuario);
     }
 
-    public static void salvarUsuarioBanco(Usuario u) {
+    private static void salvarUsuarioBanco(Usuario u) {
         getReferenciaBanco().child(u.getNumero()).child("Dados").setValue(u);
         getReferenciaBanco().child(u.getNumero()).child("Conversas");
     }
 
     public static void logouf() {
         getReference().signOut();
+    }
+
+    public static Usuario getUsuarioAtual() {
+        Usuario u = new Usuario();
+        u.setId(getUser().getUid());
+        u.setNumero(getUser().getPhoneNumber());
+        u.setNome(getUser().getDisplayName());
+
+        return u;
     }
 }

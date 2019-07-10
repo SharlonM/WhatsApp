@@ -126,9 +126,9 @@ public class ValidadorActivity extends AppCompatActivity {
 
                     ConfigFirebase.getUser().updateProfile(builder.build());
 
-                    MainActivity.toast(getApplicationContext(), "Bem vindo " + ConfigFirebase.getUser().getDisplayName());
-
                     ConfigFirebase.updateUsuario();
+
+                    MainActivity.toast(getApplicationContext(), "Bem vindo " + ConfigFirebase.getUser().getDisplayName());
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
