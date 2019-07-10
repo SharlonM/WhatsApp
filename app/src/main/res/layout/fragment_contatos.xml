@@ -5,12 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".fragmentos.ContatosFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:text="Contatos" />
+    <ListView
+        android:id="@+id/listaContatos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

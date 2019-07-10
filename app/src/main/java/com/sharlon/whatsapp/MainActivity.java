@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sharlon.whatsapp.Autenticacao.LoginActivity;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.TabAdapter;
+import com.sharlon.whatsapp.modelos.Contatos;
 
 import java.util.Objects;
 
@@ -94,33 +96,54 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
 
         final EditText editText = new EditText(this);
+        final EditText editNome = new EditText(this);
+
+        // editText para o numero do novo usuario
 
         SimpleMaskFormatter formato = new SimpleMaskFormatter("+NNNNNNNNNNNNN");
         MaskTextWatcher mascaraNumero = new MaskTextWatcher(editText, formato);
         editText.addTextChangedListener(mascaraNumero);
         editText.setHint("+55 (82) 93333-3333");
-        //editText.setHintTextColor(Color.WHITE);
         editText.setTextColor(Color.WHITE);
         editText.setInputType(InputType.TYPE_CLASS_PHONE);
 
+        //EditText para o nome do contato
+
+        editNome.setHint("Nome do Contato");
+        editNome.setTextColor(Color.WHITE);
+        editNome.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+
+
+        // Configurar alertDialog com o layout
+
         alertDialog.setTitle("Novo Contato");
-        alertDialog.setMessage("Numero do contato");
+        alertDialog.setMessage("Dados do contato");
         alertDialog.setCancelable(false);
-        alertDialog.setView(editText);
+
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(editText);
+        layout.addView(editNome);
+
+        alertDialog.setView(layout);
+
 
         alertDialog.setPositiveButton("Cadastrar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                final String novoContato = editText.getText().toString().trim();
+                final String numeroContato = editText.getText().toString().trim();
+                final String nomeContato = editNome.getText().toString().trim();
 
-                if (novoContato.isEmpty()) {
-                    toast(MainActivity.this, "Numero Invalido");
+                if (numeroContato.isEmpty() || nomeContato.isEmpty()) {
+                    toast(MainActivity.this, "Dados invalidos");
                 } else {
+
                     ConfigFirebase.getReferenciaBanco().addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if (dataSnapshot.child(novoContato).exists()) {
+                            if (dataSnapshot.child(numeroContato).exists()) {
 
                                 /*
                                     Instancia do banco
@@ -141,12 +164,18 @@ public class MainActivity extends AppCompatActivity {
 
                                 */
 
+                                Contatos contato = new Contatos();
+                                contato.setNome(nomeContato);
+                                contato.setNumero(numeroContato);
 
-                                toast(MainActivity.this, "Usuario encontrado");
+
+
                                 ConfigFirebase.getReferenciaBanco().child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()))
                                         .child("Contatos")
-                                        .child(novoContato)
-                                        .setValue("");
+                                        .child(numeroContato)
+                                        .setValue(contato);
+
+                                toast(MainActivity.this, "Usuario Adcionado");
 
 
                             } else {
