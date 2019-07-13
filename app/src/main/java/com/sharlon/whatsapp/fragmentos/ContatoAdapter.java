@@ -41,7 +41,9 @@ public class ContatoAdapter extends ArrayAdapter<Contatos> {
 
             // recuperar o elemento para exibiçao
             TextView nomeContato = view.findViewById(R.id.txt_nome);
+            TextView emailContato = view.findViewById(R.id.txt_numero);
             nomeContato.setText(contatos.get(position).getNome());
+            emailContato.setText(contatos.get(position).getNumero());
 
         }
 
