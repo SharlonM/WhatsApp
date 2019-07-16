@@ -41,8 +41,8 @@ public class ConfigFirebase {
     }
 
     private static void salvarUsuarioBanco(Usuario u) {
-        getReferenciaBanco().child(u.getNumero()).child("Dados").setValue(u);
-        getReferenciaBanco().child(u.getNumero()).child("Conversas");
+        getReferenciaBanco().child("Usuarios").child(u.getNumero()).child("Dados").setValue(u);
+        getReferenciaBanco().child("Usuarios").child(u.getNumero()).child("Conversas");
     }
 
     public static void logouf() {

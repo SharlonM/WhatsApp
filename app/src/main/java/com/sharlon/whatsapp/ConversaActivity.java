@@ -17,17 +17,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.ConversaAdapter;
+import com.sharlon.whatsapp.modelos.Historico;
 import com.sharlon.whatsapp.modelos.Mensagens;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class ConversaActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private EditText edtMensagem;
-    private ImageButton imgEnviar;
-    private ListView listView;
     private ArrayList<Mensagens> arrayMensagens;
     private ArrayAdapter<Mensagens> adapter;
     private DatabaseReference firebase;
@@ -41,8 +40,8 @@ public class ConversaActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         edtMensagem = findViewById(R.id.edt_mensagem);
-        imgEnviar = findViewById(R.id.imgSend);
-        listView = findViewById(R.id.lv_conversas);
+        ImageButton imgEnviar = findViewById(R.id.imgSend);
+        ListView listView = findViewById(R.id.lv_conversas);
 
         if (bundle != null) {
 
@@ -54,7 +53,7 @@ public class ConversaActivity extends AppCompatActivity {
 
             //configurar a toolbar
 
-            toolbar = findViewById(R.id.toolbarConversas);
+            Toolbar toolbar = findViewById(R.id.toolbarConversas);
 
             toolbar.setTitle(nomeDestinatario);
             toolbar.setTitleMarginStart(100);
@@ -71,8 +70,8 @@ public class ConversaActivity extends AppCompatActivity {
             // recuperar historico de mensagens
 
             firebase = ConfigFirebase.getReferenciaBanco().child("Conversas")
-                    .child(numeroRemetente)
-                    .child(numeroDestinatario);
+                    .child(Objects.requireNonNull(numeroRemetente))
+                    .child(Objects.requireNonNull(numeroDestinatario));
 
             eventListener = new ValueEventListener() {
                 @Override
@@ -107,11 +106,48 @@ public class ConversaActivity extends AppCompatActivity {
 
                     if (!edtmensagem.isEmpty()) {
 
+                        // salvando mensagens que estao sendo trocadas
+
                         Mensagens mensagens = new Mensagens();
                         mensagens.setIdUsuario(numeroRemetente);
                         mensagens.setMensagem(edtmensagem);
 
-                        salvarMensagem(numeroRemetente, numeroDestinatario, mensagens);
+                        salvarMensagem(numeroRemetente, numeroDestinatario, mensagens);  // remetente
+                        salvarMensagem(numeroDestinatario, numeroRemetente, mensagens); // destinatario
+
+                        // salvando o ultimo historico de mensagens
+
+                        // para o remetente
+
+                        Historico hist = new Historico();
+                        hist.setIdUsuario(numeroDestinatario);
+                        hist.setNome(nomeDestinatario);
+                        hist.setMensagem(edtmensagem);
+
+                        salvarConversa(numeroRemetente, numeroDestinatario, hist);
+
+                        // para o destinatario
+
+
+                        ConfigFirebase.getReferenciaBanco().child("Usuarios").child(numeroDestinatario)
+                                .child("Contatos").child(numeroRemetente).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        Historico histDestinatario = new Historico();
+                        histDestinatario.setNome(ConfigFirebase.getUser().getDisplayName());
+                        histDestinatario.setIdUsuario(numeroRemetente);
+                        histDestinatario.setMensagem(edtmensagem);
+
+                        salvarConversa(numeroDestinatario, numeroRemetente, histDestinatario);
 
                         edtMensagem.setText("");
 
@@ -125,15 +161,6 @@ public class ConversaActivity extends AppCompatActivity {
 
     private void salvarMensagem(String idRemetente, String idDestinatario, Mensagens mensagem) {
 
-        /*
-            +mensagens
-                +829999
-                    +8297144
-                        mensagem
-                    +7894661
-                        mensagem
-            */
-
         try {
 
             ConfigFirebase.getReferenciaBanco().child("Conversas")
@@ -141,6 +168,19 @@ public class ConversaActivity extends AppCompatActivity {
                     .child(idDestinatario)
                     .push()
                     .setValue(mensagem);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            MainActivity.toast(getApplicationContext(), "Mensagem nao enviada");
+        }
+    }
+
+    private void salvarConversa(String idRemetente, String idDestinatario, Historico historico) {
+        try {
+
+            firebase = ConfigFirebase.getReferenciaBanco()
+                    .child("Historico");
+            firebase.child(idRemetente).child(idDestinatario).setValue(historico);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -113,6 +113,7 @@ public class ContatosFragment extends Fragment {
         super.onStart();
 
         ConfigFirebase.getReferenciaBanco()
+                .child("Usuarios")
                 .child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()))
                 .child("Contatos")
                 .addValueEventListener(valueEventListenerContatos);
@@ -123,6 +124,7 @@ public class ContatosFragment extends Fragment {
     public void onStop() {
         super.onStop();
         ConfigFirebase.getReferenciaBanco()
+                .child("Usuarios")
                 .child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()))
                 .child("Contatos")
                 .removeEventListener(valueEventListenerContatos);

@@ -139,38 +139,20 @@ public class MainActivity extends AppCompatActivity {
                     toast(MainActivity.this, "Dados invalidos");
                 } else {
 
-                    ConfigFirebase.getReferenciaBanco().addListenerForSingleValueEvent(new ValueEventListener() {
+                    ConfigFirebase.getReferenciaBanco().child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             if (dataSnapshot.child(numeroContato).exists()) {
-
-                                /*
-                                    Instancia do banco
-
-                                    +usuario
-
-                                        +Dados
-
-                                            id: ""
-                                            numero: ""
-                                            nome: ""
-
-                                        +Contatos
-
-                                            +contato
-                                                nome: ""
-                                                historico: ""
-
-                                */
 
                                 Contatos contato = new Contatos();
                                 contato.setNome(nomeContato);
                                 contato.setNumero(numeroContato);
 
 
-
-                                ConfigFirebase.getReferenciaBanco().child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()))
+                                ConfigFirebase.getReferenciaBanco()
+                                        .child("Usuarios")
+                                        .child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()))
                                         .child("Contatos")
                                         .child(numeroContato)
                                         .setValue(contato);
