@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ValidadorActivity extends AppCompatActivity {
 
-    public static String nome, numero;
+    private String nome, numero;
     String credencial;
     private EditText codigo;
     private boolean liberacao = false;
@@ -38,6 +38,11 @@ public class ValidadorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validador);
+
+        Bundle bundle = getIntent().getExtras();
+
+        nome = bundle.getString("nome");
+        numero = bundle.getString("numero");
 
         codigo = findViewById(R.id.edtCodigo);
         verificarComFirebase(numero);
@@ -128,7 +133,7 @@ public class ValidadorActivity extends AppCompatActivity {
 
                     ConfigFirebase.updateUsuario();
 
-                    MainActivity.toast(getApplicationContext(), "Bem vindo " + ConfigFirebase.getUser().getDisplayName());
+                    MainActivity.toast(getApplicationContext(), "Bem vindo ");
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();

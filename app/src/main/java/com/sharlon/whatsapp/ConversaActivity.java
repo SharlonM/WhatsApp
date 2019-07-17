@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.ConversaAdapter;
+import com.sharlon.whatsapp.modelos.Contatos;
 import com.sharlon.whatsapp.modelos.Historico;
 import com.sharlon.whatsapp.modelos.Mensagens;
 
@@ -31,6 +32,7 @@ public class ConversaActivity extends AppCompatActivity {
     private ArrayAdapter<Mensagens> adapter;
     private DatabaseReference firebase;
     private ValueEventListener eventListener;
+    private String nomeRemetente;
 
 
     @Override
@@ -47,7 +49,6 @@ public class ConversaActivity extends AppCompatActivity {
 
             final String nomeDestinatario = bundle.getString("nome");
             final String numeroDestinatario = bundle.getString("numero");
-            final String historico = bundle.getString("historico");
             String fotoDestinatario = bundle.getString("foto");
             final String numeroRemetente = ConfigFirebase.getUser().getPhoneNumber();
 
@@ -134,6 +135,13 @@ public class ConversaActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                Contatos contato = new Contatos();
+
+                                if (dataSnapshot.exists()) {
+                                    contato = dataSnapshot.getValue(Contatos.class);
+                                    nomeRemetente = contato.getNome();
+                                }
+
                             }
 
                             @Override
@@ -143,7 +151,7 @@ public class ConversaActivity extends AppCompatActivity {
                         });
 
                         Historico histDestinatario = new Historico();
-                        histDestinatario.setNome(ConfigFirebase.getUser().getDisplayName());
+                        histDestinatario.setNome(nomeRemetente);
                         histDestinatario.setIdUsuario(numeroRemetente);
                         histDestinatario.setMensagem(edtmensagem);
 

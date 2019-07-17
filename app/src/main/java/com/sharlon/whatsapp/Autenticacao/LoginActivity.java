@@ -79,12 +79,13 @@ public class LoginActivity extends AppCompatActivity {
             numero = numero.replace(")", "");
             numero = numero.replaceAll(" ", "");
 
-            ValidadorActivity.numero = numero;
-            ValidadorActivity.nome = nome;
-
             dialog.show();
 
             Intent i = new Intent(this, ValidadorActivity.class);
+
+            i.putExtra("nome", nome);
+            i.putExtra("numero", numero);
+
             startActivity(i);
 
         }

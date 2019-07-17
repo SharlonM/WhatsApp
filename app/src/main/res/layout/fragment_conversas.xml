@@ -5,13 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragmentos.ConversasFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/list_Conversas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:text="Conversas"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
+        android:layout_height="wrap_content"
+        android:dividerHeight="0dp"
+        android:layout_gravity="center_horizontal|top" />
 </FrameLayout>
