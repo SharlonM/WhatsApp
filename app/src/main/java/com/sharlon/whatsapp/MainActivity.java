@@ -30,6 +30,8 @@ import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.TabAdapter;
 import com.sharlon.whatsapp.modelos.Contatos;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,11 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static String data() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        Date data = new Date();
+        String data_completa = dateFormat.format(data.getTime());
+
+        return data_completa;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         toolbar.setTitle("WhatsApp");
@@ -80,16 +90,25 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.item_pesquisa:
+
                 return true;
 
             case R.id.item_sair:
                 deslogarUsuario();
                 return true;
 
+            case R.id.item_config:
+                abrirConfiguracoes();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void abrirConfiguracoes() {
+        startActivity(new Intent(this, ConfigActivity.class));
     }
 
     private void abrirCadastroDeContato() {

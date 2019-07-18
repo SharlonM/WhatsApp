@@ -11,6 +11,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/item_config"
+        android:orderInCategory="100"
+        android:title="Configuraçoes"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/item_adcionar"
         android:icon="@drawable/ic_person_add"
         android:orderInCategory="300"

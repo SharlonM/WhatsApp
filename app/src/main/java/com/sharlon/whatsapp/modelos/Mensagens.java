@@ -2,7 +2,7 @@ package com.sharlon.whatsapp.modelos;
 
 public class Mensagens {
 
-    private String idUsuario, mensagem;
+    private String idUsuario, mensagem, horario;
 
     public Mensagens() {
     }
@@ -21,5 +21,13 @@ public class Mensagens {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String h) {
+        this.horario = h;
     }
 }

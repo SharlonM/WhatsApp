@@ -1,5 +1,11 @@
 package com.sharlon.whatsapp.firebase;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -40,9 +46,18 @@ public class ConfigFirebase {
         salvarUsuarioBanco(usuario);
     }
 
-    private static void salvarUsuarioBanco(Usuario u) {
-        getReferenciaBanco().child("Usuarios").child(u.getNumero()).child("Dados").setValue(u);
-        getReferenciaBanco().child("Usuarios").child(u.getNumero()).child("Conversas");
+    public static void salvarUsuarioBanco(Usuario u) {
+        getReferenciaBanco().child("Usuarios").child(u.getNumero()).child("Dados").setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.w("Sucesso", "salvar usuario no banco");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("Falha", "salvar usuario no banco");
+            }
+        });
     }
 
     public static void logouf() {
@@ -54,7 +69,6 @@ public class ConfigFirebase {
         u.setId(getUser().getUid());
         u.setNumero(getUser().getPhoneNumber());
         u.setNome(getUser().getDisplayName());
-
         return u;
     }
 }

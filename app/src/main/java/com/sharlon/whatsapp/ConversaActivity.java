@@ -1,6 +1,7 @@
 package com.sharlon.whatsapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -32,7 +33,7 @@ public class ConversaActivity extends AppCompatActivity {
     private ArrayAdapter<Mensagens> adapter;
     private DatabaseReference firebase;
     private ValueEventListener eventListener;
-    private String nomeRemetente;
+    private String nomeRemetente, edtmensagem;
 
 
     @Override
@@ -103,7 +104,7 @@ public class ConversaActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    String edtmensagem = edtMensagem.getText().toString();
+                    edtmensagem = edtMensagem.getText().toString();
 
                     if (!edtmensagem.isEmpty()) {
 
@@ -112,6 +113,7 @@ public class ConversaActivity extends AppCompatActivity {
                         Mensagens mensagens = new Mensagens();
                         mensagens.setIdUsuario(numeroRemetente);
                         mensagens.setMensagem(edtmensagem);
+                        mensagens.setHorario(MainActivity.data());
 
                         salvarMensagem(numeroRemetente, numeroDestinatario, mensagens);  // remetente
                         salvarMensagem(numeroDestinatario, numeroRemetente, mensagens); // destinatario
@@ -135,11 +137,21 @@ public class ConversaActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                Contatos contato = new Contatos();
+                                Contatos cont;
 
                                 if (dataSnapshot.exists()) {
-                                    contato = dataSnapshot.getValue(Contatos.class);
-                                    nomeRemetente = contato.getNome();
+                                    cont = dataSnapshot.getValue(Contatos.class);
+                                    nomeRemetente = cont.getNome();
+                                    Log.w("nome", nomeRemetente);
+
+                                    Historico histDestinatario = new Historico();
+                                    histDestinatario.setNome(nomeRemetente);
+                                    histDestinatario.setIdUsuario(numeroRemetente);
+                                    histDestinatario.setMensagem(edtmensagem);
+
+                                    salvarConversa(numeroDestinatario, numeroRemetente, histDestinatario);
+
+                                    edtMensagem.setText("");
                                 }
 
                             }
@@ -149,15 +161,6 @@ public class ConversaActivity extends AppCompatActivity {
 
                             }
                         });
-
-                        Historico histDestinatario = new Historico();
-                        histDestinatario.setNome(nomeRemetente);
-                        histDestinatario.setIdUsuario(numeroRemetente);
-                        histDestinatario.setMensagem(edtmensagem);
-
-                        salvarConversa(numeroDestinatario, numeroRemetente, histDestinatario);
-
-                        edtMensagem.setText("");
 
                     }
 

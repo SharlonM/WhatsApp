@@ -8,7 +8,14 @@
     <string name="txt_codigo">Digite o código!</string>
     <string name="txt_Validar">Validar</string>
     <string name="txt_logout">Sair</string>
+    <string name="txt_dados">Seus Dados</string>
+    <string name="txt_nome">Nome:</string>
+    <string name="txt_numero">Numero:</string>
+    <string name="txt_salvar">Salvar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="img_perfil">img_perfil</string>
+    <string name="txt_textoConfig">Clique na foto para mudar sua foto de perfil</string>
+    <string name="txt_NumeroPadrao">+55 82 99999-9999</string>
 </resources>

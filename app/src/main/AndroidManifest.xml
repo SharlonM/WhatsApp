@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ConfigActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".ConversaActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".Autenticacao.ValidadorActivity" />
         <activity android:name=".Autenticacao.LoginActivity">
             <intent-filter>
@@ -23,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

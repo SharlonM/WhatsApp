@@ -50,6 +50,8 @@ public class ConversaAdapter extends ArrayAdapter<Mensagens> {
 
             TextView textoMensagem = view.findViewById(R.id.txt_mensagem);
             textoMensagem.setText(msg.getMensagem());
+            TextView horario = view.findViewById(R.id.txt_horario);
+            horario.setText(msg.getHorario());
         }
 
         return view;

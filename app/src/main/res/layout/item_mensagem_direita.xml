@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txt_mensagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mensagem..."
-        android:textColor="@color/colorWhite"
-        android:padding="8dp"
+        android:layout_gravity="end"
         android:background="@color/colorPrimary"
-        android:layout_alignParentEnd="true" />
+        android:padding="8dp"
+        android:text="Mensagem..."
+        android:textColor="@color/colorWhite" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/txt_horario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="01/01/2000 15:40"
+        android:textSize="12sp" />
+
+</LinearLayout>
