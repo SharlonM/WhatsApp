@@ -2,7 +2,7 @@ package com.sharlon.whatsapp.modelos;
 
 public class Usuario {
 
-    private String nome, numero, id, foto;
+    private String nome, numero, id;
 
     public Usuario() {
     }
@@ -31,11 +31,4 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
 }

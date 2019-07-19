@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (ConfigFirebase.getReference().getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
 
             edtNome = findViewById(R.id.edtNome);
@@ -87,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             i.putExtra("numero", numero);
 
             startActivity(i);
+            finish();
 
         }
 

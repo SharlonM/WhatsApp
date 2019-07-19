@@ -56,10 +56,10 @@ public class ConfigActivity extends AppCompatActivity {
 
         user = ConfigFirebase.getUsuarioAtual();
 
-        //recuperarFotoAtual();
+        recuperarFotoAtual();
         recuperarDadosAtuais();
 
-        imgPerfil = findViewById(R.id.imgPerfil);
+        imgPerfil = findViewById(R.id.imgContatoPerfil);
         imgPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +78,13 @@ public class ConfigActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     Usuario userAtual = dataSnapshot.getValue(Usuario.class);
                     edtNome.setText(userAtual.getNome());
                     edtNumero.setText(userAtual.getNumero());
-                    imgPerfil.setImageURI(Uri.parse(userAtual.getFoto()));
+
+                    MainActivity.toast(ConfigActivity.this, "AS INFORMAÇOES PODEM DEMORAR ALGUNS SEGUNDOS A CARREGAR");
+
                 }
             }
 
@@ -104,7 +107,7 @@ public class ConfigActivity extends AppCompatActivity {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     imgPerfil.setImageBitmap(bitmap);
-
+                    imgPerfil.setBackground(null);
                     uriImagem = Uri.fromFile(localFile);
 
                 }
@@ -126,7 +129,6 @@ public class ConfigActivity extends AppCompatActivity {
 
         if (!novoNome.isEmpty()) {
             user.setNome(novoNome);
-            user.setFoto(uriImagem.toString());
             ConfigFirebase.salvarUsuarioBanco(user);
             MainActivity.toast(this, "Dados Atualizados");
             startActivity(new Intent(this, MainActivity.class));
@@ -144,7 +146,7 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null) {
@@ -157,6 +159,8 @@ public class ConfigActivity extends AppCompatActivity {
 
                     Log.w("SUCESSO", "upload feito");
                     imgPerfil.setImageURI(uriImagem);
+                    imgPerfil.setBackground(null);
+                    MainActivity.toast(ConfigActivity.this, "IMAGEM ESCOLHIDA COM SUCESSO, AGUARDE ALGUNS SEGUNDOS");
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

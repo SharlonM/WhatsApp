@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.item_pesquisa:
-
                 return true;
 
             case R.id.item_sair:
@@ -108,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void abrirConfiguracoes() {
-        startActivity(new Intent(this, ConfigActivity.class));
+        Intent i = new Intent(MainActivity.this, ConfigActivity.class);
+        startActivity(i);
     }
 
     private void abrirCadastroDeContato() {

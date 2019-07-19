@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/toolbarConversas"
-        layout="@layout/toolbar"></include>
+        layout="@layout/toolbar_conversa"></include>
 
     <ListView
         android:id="@+id/lv_conversas"

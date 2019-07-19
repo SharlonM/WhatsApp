@@ -1,32 +1,49 @@
 package com.sharlon.whatsapp;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.ConversaAdapter;
 import com.sharlon.whatsapp.modelos.Contatos;
 import com.sharlon.whatsapp.modelos.Historico;
 import com.sharlon.whatsapp.modelos.Mensagens;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class ConversaActivity extends AppCompatActivity {
+
+    public void hideKeyboard(Context c, EditText e) {
+        InputMethodManager imm = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(e.getWindowToken(), 0);
+    }
 
     private EditText edtMensagem;
     private ArrayList<Mensagens> arrayMensagens;
@@ -50,18 +67,45 @@ public class ConversaActivity extends AppCompatActivity {
 
             final String nomeDestinatario = bundle.getString("nome");
             final String numeroDestinatario = bundle.getString("numero");
-            String fotoDestinatario = bundle.getString("foto");
             final String numeroRemetente = ConfigFirebase.getUser().getPhoneNumber();
 
             //configurar a toolbar
 
-            Toolbar toolbar = findViewById(R.id.toolbarConversas);
-
-            toolbar.setTitle(nomeDestinatario);
-            toolbar.setTitleMarginStart(100);
+            final Toolbar toolbar = findViewById(R.id.toolbarConversas);
             toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
-            toolbar.setLogo(R.drawable.ic_account_circle_white_36dp);
+            final ImageView img = toolbar.findViewById(R.id.imgConversaPerfil);
+            final TextView txtNome = toolbar.findViewById(R.id.txt_nomeDestinatario);
+            txtNome.setText(nomeDestinatario);
+            toolbar.setTitle("");
             setSupportActionBar(toolbar);
+
+            // recuperar foto
+            try {
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageReference = storage.getReference();
+
+                StorageReference sto = storageReference.child(numeroDestinatario);
+
+                final File localFile = File.createTempFile("images", "png");
+                sto.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                        Drawable fotoDestinatario = Drawable.createFromPath(localFile.getAbsolutePath());
+                        img.setImageDrawable(fotoDestinatario);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("Falha", "recuperar foto");
+                    }
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // configurar listview e adapter
 
@@ -105,6 +149,7 @@ public class ConversaActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     edtmensagem = edtMensagem.getText().toString();
+                    hideKeyboard(getApplicationContext(), edtMensagem);
 
                     if (!edtmensagem.isEmpty()) {
 
