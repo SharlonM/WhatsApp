@@ -80,6 +80,7 @@ public class ConfigActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
 
                     Usuario userAtual = dataSnapshot.getValue(Usuario.class);
+                    assert userAtual != null;
                     edtNome.setText(userAtual.getNome());
                     edtNumero.setText(userAtual.getNumero());
 
@@ -142,6 +143,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
+        MainActivity.toast(ConfigActivity.this, "APOS IMAGEM ESCOLHIDA AGUARDE ALGUNS SEGUNDOS");
 
     }
 
@@ -160,7 +162,6 @@ public class ConfigActivity extends AppCompatActivity {
                     Log.w("SUCESSO", "upload feito");
                     imgPerfil.setImageURI(uriImagem);
                     imgPerfil.setBackground(null);
-                    MainActivity.toast(ConfigActivity.this, "IMAGEM ESCOLHIDA COM SUCESSO, AGUARDE ALGUNS SEGUNDOS");
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

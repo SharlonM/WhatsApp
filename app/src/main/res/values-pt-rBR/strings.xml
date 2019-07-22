@@ -17,4 +17,7 @@
     <string name="txt_salvar">Salvar</string>
     <string name="txt_textoConfig">Clique na foto para mudar sua foto de perfil</string>
     <string name="txt_NumeroPadrao">+55 82 99999-9999</string>
+    <string name="txt_escrevaMensagem">Escreva sua mensagem</string>
+    <string name="txt_contatos">CONTATOS</string>
+    <string name="txt_conversas">CONVERSAS</string>
 </resources>

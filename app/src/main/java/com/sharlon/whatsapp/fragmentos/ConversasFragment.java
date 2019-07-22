@@ -24,13 +24,13 @@ import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.modelos.Historico;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ConversasFragment extends Fragment {
 
-    private ListView listaContatos;
     private ArrayList<Historico> listaDeHistoricos;
     private ValueEventListener valueEventListener;
     private ArrayAdapter<Historico> adapter;
@@ -43,12 +43,12 @@ public class ConversasFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_conversas, container, false);
 
-        listaContatos = view.findViewById(R.id.list_Conversas);
+        ListView listaContatos = view.findViewById(R.id.list_Conversas);
         listaDeHistoricos = new ArrayList<>();
         adapter = new HistoricoAdapter(getActivity(), listaDeHistoricos);
         listaContatos.setAdapter(adapter);
@@ -75,7 +75,7 @@ public class ConversasFragment extends Fragment {
     private void recuperarHistorico() {
 
         firebase = ConfigFirebase.getReferenciaBanco().child("Historico")
-                .child(ConfigFirebase.getUser().getPhoneNumber());
+                .child(Objects.requireNonNull(ConfigFirebase.getUser().getPhoneNumber()));
 
         valueEventListener = new ValueEventListener() {
             @Override

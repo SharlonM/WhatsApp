@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,6 @@ public class ContatosFragment extends Fragment {
     private ListView lista;
     private ArrayList<Contatos> listaDeContatos;
     private ValueEventListener valueEventListenerContatos;
-    private Uri imagemPerfil;
 
 
     public ContatosFragment() {
@@ -77,17 +75,12 @@ public class ContatosFragment extends Fragment {
         return view;
     }
 
-    private void pegarFoto() {
-        Intent i = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(i, "Selecione uma imagem de perfil"), 1);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        imagemPerfil = data.getData();
+        Uri imagemPerfil = data.getData();
+        assert imagemPerfil != null;
         Log.w("Uri", imagemPerfil.toString());
         BitmapDrawable.createFromPath(String.valueOf(imagemPerfil));
 

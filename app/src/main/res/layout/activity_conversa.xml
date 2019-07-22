@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Escreva sua mensagem"
+            android:hint="@string/txt_escrevaMensagem"
             android:inputType="textPersonName"
             android:padding="8dp"
             android:textColor="@android:color/black"
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:backgroundTint="@color/colorPrimaryDark"
+            android:contentDescription="@string/img_logo"
             app:srcCompat="@drawable/ic_send" />
     </LinearLayout>
 

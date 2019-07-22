@@ -30,18 +30,20 @@ public class HistoricoAdapter extends ArrayAdapter<Historico> {
     private ArrayList<Historico> historicos;
     private Context c;
 
-    public HistoricoAdapter(Context context, ArrayList<Historico> objects) {
+    HistoricoAdapter(Context context, ArrayList<Historico> objects) {
         super(context, 0, objects);
         this.c = context;
         this.historicos = objects;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        View view = new View(getContext());
 
         if (!historicos.isEmpty()) {
-            LayoutInflater inflater = (LayoutInflater) c.getSystemService(c.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
             view = inflater.inflate(R.layout.lista_contatos, parent, false);
 
             TextView nome = view.findViewById(R.id.txt_nome);

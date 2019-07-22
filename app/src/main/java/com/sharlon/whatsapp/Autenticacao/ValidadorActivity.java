@@ -66,8 +66,7 @@ public class ValidadorActivity extends AppCompatActivity {
                     public void onVerificationFailed(FirebaseException e) {
                         // deu falha
 
-                        LoginActivity.dialog.dismiss();
-
+                        Log.w("falha", "deu falha verification");
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ValidadorActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
                         alertDialog.setTitle("ERRO");
 
@@ -106,9 +105,11 @@ public class ValidadorActivity extends AppCompatActivity {
                         super.onCodeSent(s, forceResendingToken);
 
                         // mensagem enviada para o numero, verificar manualmente se está correto
-                        LoginActivity.dialog.dismiss();
+
                         liberacao = true;
                         credencial = s;
+                        Log.w("onCodeSent", s);
+                        Log.w("onCodeSent", forceResendingToken.toString());
 
                     }
                 }

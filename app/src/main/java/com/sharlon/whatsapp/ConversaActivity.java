@@ -42,6 +42,7 @@ public class ConversaActivity extends AppCompatActivity {
 
     public void hideKeyboard(Context c, EditText e) {
         InputMethodManager imm = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.hideSoftInputFromWindow(e.getWindowToken(), 0);
     }
 
@@ -85,6 +86,7 @@ public class ConversaActivity extends AppCompatActivity {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
 
+                assert numeroDestinatario != null;
                 StorageReference sto = storageReference.child(numeroDestinatario);
 
                 final File localFile = File.createTempFile("images", "png");
@@ -186,6 +188,7 @@ public class ConversaActivity extends AppCompatActivity {
 
                                 if (dataSnapshot.exists()) {
                                     cont = dataSnapshot.getValue(Contatos.class);
+                                    assert cont != null;
                                     nomeRemetente = cont.getNome();
                                     Log.w("nome", nomeRemetente);
 

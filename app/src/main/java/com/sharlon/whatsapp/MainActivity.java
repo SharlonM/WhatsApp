@@ -25,13 +25,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.sharlon.whatsapp.Autenticacao.LoginActivity;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.fragmentos.TabAdapter;
 import com.sharlon.whatsapp.modelos.Contatos;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static String data() {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
         Date data = new Date();
-        String data_completa = dateFormat.format(data.getTime());
 
-        return data_completa;
+        return dateFormat.format(data.getTime());
     }
 
     @Override
@@ -208,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void deslogarUsuario() {
         ConfigFirebase.logouf();
-        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

@@ -12,6 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_perfil"
         app:srcCompat="@drawable/ic_account_circle" />
 
     <LinearLayout
@@ -29,7 +30,8 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
-            android:text="Nome contato"
+            android:paddingEnd="1dp"
+            android:text="@string/txt_nome"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -38,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
-            android:text="numero do contato"
+            android:paddingEnd="1dp"
+            android:text="@string/txt_NumeroPadrao"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 

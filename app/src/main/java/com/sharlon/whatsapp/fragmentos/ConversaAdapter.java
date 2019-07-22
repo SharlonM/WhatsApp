@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.sharlon.whatsapp.R;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 import com.sharlon.whatsapp.modelos.Mensagens;
@@ -24,9 +26,10 @@ public class ConversaAdapter extends ArrayAdapter<Mensagens> {
         this.mensagens = objects;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        View view = new View(getContext());
 
         if (!mensagens.isEmpty()) {
 
@@ -35,16 +38,19 @@ public class ConversaAdapter extends ArrayAdapter<Mensagens> {
             String numeroRementente = ConfigFirebase.getUser().getPhoneNumber();
 
             // inicializa o objeto
-            LayoutInflater inflater = (LayoutInflater) c.getSystemService(c.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             // recupera o elemento para exibiçao
             Mensagens msg = mensagens.get(position);
 
+            assert numeroRementente != null;
             if (numeroRementente.equals(msg.getIdUsuario())) {
 
+                assert inflater != null;
                 view = inflater.inflate(R.layout.item_mensagem_direita, parent, false);
 
             } else {
+                assert inflater != null;
                 view = inflater.inflate(R.layout.item_mensagem_esquerda, parent, false);
             }
 

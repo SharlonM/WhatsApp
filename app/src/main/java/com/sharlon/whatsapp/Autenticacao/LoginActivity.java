@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.sharlon.whatsapp.MainActivity;
-import com.sharlon.whatsapp.Permissao;
 import com.sharlon.whatsapp.R;
 import com.sharlon.whatsapp.firebase.ConfigFirebase;
 
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Permissao.validaPermisoes(this, permisoes);
+        //Permissao.validaPermisoes(this, permisoes);
 
 
         if (ConfigFirebase.getReference().getCurrentUser() != null) {
@@ -80,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             numero = numero.replace(")", "");
             numero = numero.replaceAll(" ", "");
 
-            dialog.show();
+
 
             Intent i = new Intent(this, ValidadorActivity.class);
 
@@ -100,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                alertaValidacao();
+                //Permissao.validaPermisoes(LoginActivity.this, permisoes);
             }
         }
 
@@ -115,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
+
             }
         });
 

@@ -2,7 +2,7 @@ package com.sharlon.whatsapp.modelos;
 
 public class Contatos {
 
-    String nome = "", numero = "", historico = "";
+    private String nome = "", numero = "";
 
     public Contatos() {
     }
@@ -23,11 +23,4 @@ public class Contatos {
         this.numero = numero;
     }
 
-    public String getHistorico() {
-        return historico;
-    }
-
-    public void setHistorico(String historico) {
-        this.historico = historico;
-    }
 }

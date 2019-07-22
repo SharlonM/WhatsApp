@@ -32,7 +32,7 @@ public class ContatoAdapter extends ArrayAdapter<Contatos> {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageReference = storage.getReference();
 
-    public ContatoAdapter(Context context, ArrayList<Contatos> objects) {
+    ContatoAdapter(Context context, ArrayList<Contatos> objects) {
         super(context, 0, objects);
 
         this.contatos = objects;
@@ -40,11 +40,12 @@ public class ContatoAdapter extends ArrayAdapter<Contatos> {
 
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
 
-        View view = null;
+        View view = new View(getContext());
 
         // verificar se a lista esta vazia
         if (!contatos.isEmpty()) {
@@ -52,6 +53,7 @@ public class ContatoAdapter extends ArrayAdapter<Contatos> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             // montar a view apartir do xml
+            assert inflater != null;
             view = inflater.inflate(R.layout.lista_contatos, parent, false);
 
             // recuperar o elemento para exibiçao

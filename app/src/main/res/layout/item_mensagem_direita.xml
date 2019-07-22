@@ -11,7 +11,7 @@
         android:layout_gravity="end"
         android:background="@color/colorPrimary"
         android:padding="8dp"
-        android:text="Mensagem..."
+        android:text="@string/txt_escrevaMensagem"
         android:textColor="@color/colorWhite" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="01/01/2000 15:40"
+        android:text="@string/txt_NumeroPadrao"
         android:textSize="12sp" />
 
 </LinearLayout>
