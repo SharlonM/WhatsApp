@@ -11,10 +11,30 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+
+        myConfig{
+            storeFile file("keyWhatsFake.jks")
+            storePassword "5652408"
+            keyAlias "key0"
+            keyPassword "5652408"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = false
+            signingConfig signingConfigs.myConfig
+        }
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -34,4 +54,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
 }
+
 apply plugin: 'com.google.gms.google-services'

@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "512690781637-p1k4v57fb4ruus1bufona21b72b30me2.apps.googleusercontent.com",
+          "client_id": "512690781637-e89did2oe78k8l6sioisbf0rrc8cijo0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sharlon.whatsapp",
+            "certificate_hash": "41f0b4e7cd259333a2a5aa19d56ac21d634a46f9"
+          }
+        },
+        {
+          "client_id": "512690781637-rcbmn1t506dk7gf9aqee38ga613to7n1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sharlon.whatsapp",
